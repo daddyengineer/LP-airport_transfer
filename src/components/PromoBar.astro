@@ -1,0 +1,31 @@
+---
+import { PROMO_END } from '../lib/tracking';
+
+interface Props {
+  variant?: 'pill' | 'line';
+}
+
+const { variant = 'pill' } = Astro.props;
+---
+
+<div class="promo" data-countdown data-end={PROMO_END}>
+  <div data-live>
+    {variant === 'pill' ? (
+      <p class="promo-pill">
+        <strong>Liburan Akhir Tahun, Banyak Kejutan Menantimu!</strong>
+        Bonus Voucher Resto 10% + VIP Shopping Experience di Printemps Haussmann.
+        <br />
+        Berlaku khusus periode November–Desember! 🎉
+      </p>
+    ) : (
+      <p class="promo-line">Promo Akhir Tahun! Slot Nov–Des terbatas 🎉 · Bonus voucher resto 10%</p>
+    )}
+    <div class="countdown" role="timer" aria-label="Hitung mundur promo">
+      <div class="cd"><b data-unit="d">–</b><span>HARI</span></div>
+      <div class="cd"><b data-unit="h">–</b><span>JAM</span></div>
+      <div class="cd"><b data-unit="m">–</b><span>MNT</span></div>
+      <div class="cd"><b data-unit="s">–</b><span>DTK</span></div>
+    </div>
+  </div>
+  <p class="promo-ended" data-ended hidden>Promo telah berakhir.</p>
+</div>

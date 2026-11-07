@@ -1,0 +1,192 @@
+---
+import Base from '../layouts/Base.astro';
+import PromoBar from '../components/PromoBar.astro';
+import SiteNav from '../components/SiteNav.astro';
+import { airports, fleet, mobilByValue } from '../data/fleet';
+import { trackHref } from '../lib/tracking';
+
+const raw = Number(Astro.url.searchParams.get('langkah') || '1');
+const step = raw === 2 || raw === 3 ? raw : 1;
+const mobilQuery = Astro.url.searchParams.get('mobil') || '';
+const picked = mobilByValue(mobilQuery);
+const locals = Astro.locals;
+const stepHref = (n: number) =>
+  trackHref('/penawaran', locals, {
+    langkah: String(n),
+    ...(mobilQuery ? { mobil: mobilQuery } : {}),
+  });
+const home = trackHref('/', locals);
+const privacy = trackHref('/kebijakan-privasi', locals);
+const titles = ['', 'Trip', 'Kontak', 'Ringkasan'];
+---
+
+<Base
+  title="Minta Penawaran Gratis Airport Transfer Paris | TravelKIF"
+  description="Isi trip, kontak, dan ringkasan untuk minta penawaran antar-jemput bandara CDG, Orly, atau Beauvais. Tanpa bayar di halaman ini."
+  path="/penawaran"
+>
+  <PromoBar variant={step === 1 ? 'pill' : 'line'} />
+  <SiteNav title="Minta Penawaran Gratis" back={step === 1 ? home : stepHref(step - 1)} />
+  <main class="form-page">
+    {step === 1 && Astro.locals.promo && (
+      <p class="promo-note"><span aria-hidden="true">🏷️</span> Kode promo {Astro.locals.promo} otomatis terpasang dari link iklan</p>
+    )}
+    <form id="quote-form" class="form-card" data-step={step} novalidate>
+      <div>
+        <p class="steps"><span>Langkah {step} dari 3</span><span>{titles[step]}</span></p>
+        <div class="bars" aria-hidden="true">
+          <i class="on"></i>
+          <i class={step > 1 ? 'on' : ''}></i>
+          <i class={step > 2 ? 'on' : ''}></i>
+        </div>
+      </div>
+      <p class="form-error" data-error hidden></p>
+
+      {step === 1 && (
+        <>
+          <div class="field">
+            <span class="label" id="layanan-label">Jenis layanan</span>
+            <div class="control locked" aria-labelledby="layanan-label">
+              <span>Airport Transfer</span>
+              <span aria-hidden="true">🔒</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="mobil">Jenis Kendaraan</label>
+            <div class="control">
+              <select id="mobil" name="mobil" required>
+                <option value="" disabled selected={!picked}>Pilih: Premium Van / VIP Van / Big Van</option>
+                {fleet.map((car) => (
+                  <option value={car.slug} selected={picked?.slug === car.slug}>{car.name}</option>
+                ))}
+              </select>
+              <span aria-hidden="true">▾</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="bandara">Bandara</label>
+            <div class="control">
+              <select id="bandara" name="bandara" required>
+                <option value="" disabled selected>Pilih: CDG / Orly / Beauvais</option>
+                {airports.map((airport) => (
+                  <option value={airport.id}>{airport.label}</option>
+                ))}
+              </select>
+              <span aria-hidden="true">▾</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="penerbangan">Nomor penerbangan</label>
+            <div class="control">
+              <input id="penerbangan" name="penerbangan" autocomplete="off" placeholder="mis. GA 88" required />
+            </div>
+          </div>
+          <div class="field">
+            <span class="label" id="landing-label">Tanggal &amp; jam landing</span>
+            <div class="control datetime" role="group" aria-labelledby="landing-label">
+              <input id="tanggal" name="tanggal" type="date" aria-label="Tanggal landing" required />
+              <input id="jam" name="jam" type="time" aria-label="Jam landing" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="hotel">Alamat tujuan/Hotel</label>
+            <div class="control">
+              <input id="hotel" name="hotel" autocomplete="street-address" placeholder="alamat tujuan di Paris" required />
+            </div>
+          </div>
+          <div class="steppers">
+            <div class="field">
+              <label for="penumpang">Penumpang <span class="req">*</span></label>
+              <div class="control stepper">
+                <button type="button" data-for="penumpang" data-dir="-1" aria-label="Kurangi penumpang">−</button>
+                <input id="penumpang" name="penumpang" type="number" value="1" min="1" max="16" readonly />
+                <button type="button" class="plus" data-for="penumpang" data-dir="1" aria-label="Tambah penumpang">+</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="koper">Koper</label>
+              <div class="control stepper">
+                <button type="button" data-for="koper" data-dir="-1" aria-label="Kurangi koper">−</button>
+                <input id="koper" name="koper" type="number" value="0" min="0" max="30" readonly />
+                <button type="button" class="plus" data-for="koper" data-dir="1" aria-label="Tambah koper">+</button>
+              </div>
+            </div>
+          </div>
+          <p class="hint">⚠️ Wajib diisi · Undangan Printemps dikirim sesuai jumlah penumpang</p>
+          <label class="check">
+            <input type="checkbox" name="driver" />
+            <span>Request driver berbahasa Indonesia</span>
+          </label>
+          <button class="btn btn-gold" type="submit">Lanjut ke Kontak →</button>
+          <p class="reassure">🔒 Tanpa bayar di halaman ini. Admin konfirmasi via WhatsApp.</p>
+        </>
+      )}
+
+      {step === 2 && (
+        <>
+          <div class="field">
+            <label for="nama">Nama lengkap</label>
+            <div class="control">
+              <input id="nama" name="nama" autocomplete="name" placeholder="Nama lengkap" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="whatsapp">Nomor WhatsApp</label>
+            <div class="control">
+              <span class="wa-prefix">🇮🇩 +62</span>
+              <input id="whatsapp" name="whatsapp" inputmode="numeric" autocomplete="tel" placeholder="812 3456 7890" required />
+            </div>
+            <p class="ok" data-wa-ok hidden>✓ Nomor valid, admin akan chat ke nomor ini</p>
+          </div>
+          <div class="field">
+            <label for="catatan">Catatan (opsional)</label>
+            <div class="control">
+              <textarea id="catatan" name="catatan" placeholder="Child seat, kursi roda, stroller, dll."></textarea>
+            </div>
+          </div>
+          <label class="check">
+            <input id="consent" name="consent" type="checkbox" required />
+            <span>Saya setuju data dipakai untuk menghubungi saya. <a href={privacy}>Baca Kebijakan Privasi</a>.</span>
+          </label>
+          <div class="actions">
+            <a class="btn btn-ghost" href={stepHref(1)}>← Kembali</a>
+            <button class="btn btn-gold" type="submit">Lanjut ke Ringkasan →</button>
+          </div>
+        </>
+      )}
+
+      {step === 3 && (
+        <>
+          <p class="look">Cek lagi ya sebelum dikirim 👀</p>
+          <dl class="summary">
+            <div class="summary-row"><dt>Layanan</dt><dd>Airport Transfer</dd></div>
+            <div class="summary-row"><dt>Rute</dt><dd data-sum="rute">—</dd></div>
+            <div class="summary-row"><dt>Tanggal</dt><dd data-sum="tanggal">—</dd></div>
+            <div class="summary-row"><dt>Kendaraan</dt><dd data-sum="kendaraan">—</dd></div>
+            <div class="summary-row"><dt>Penumpang</dt><dd data-sum="penumpang">—</dd></div>
+            <div class="summary-row"><dt>Driver</dt><dd data-sum="driver">—</dd></div>
+            <div class="summary-row"><dt>Kontak</dt><dd data-sum="kontak">—</dd></div>
+            <div class="summary-row"><dt>Catatan</dt><dd data-sum="catatan">—</dd></div>
+            <div class="summary-row summary-bonus"><dt>Bonus restoran</dt><dd>🎁 Voucher 10% @makanmakan.paris</dd></div>
+            <div class="summary-row summary-bonus"><dt>Bonus belanja</dt><dd>🛍️ Termasuk undangan VIP Shopping Printemps (per penumpang)</dd></div>
+          </dl>
+          <p class="fine">*Harga final tergantung rute yang akan dituju</p>
+          <button class="btn btn-gold" type="submit" data-submit><span aria-hidden="true">🚀</span> Kirim &amp; Dapatkan Penawaran</button>
+          <a class="btn btn-ghost" href={stepHref(1)}>← Ubah data</a>
+          <p class="reassure">🔒 Tidak ada pembayaran di halaman ini. Pembayaran diatur admin via WhatsApp.</p>
+        </>
+      )}
+    </form>
+  </main>
+  <div class="overlay" id="success-overlay" hidden>
+    <div class="overlay-card" role="status">
+      <div class="overlay-art" id="success-art" aria-hidden="true">
+        <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="46" fill="#eaad40"/><path d="M38 62 l14 14 30-32" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <p>Permintaan terkirim</p>
+    </div>
+  </div>
+  <script>
+    import '../scripts/penawaran.ts';
+  </script>
+</Base>

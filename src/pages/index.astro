@@ -1,0 +1,169 @@
+---
+import Base from '../layouts/Base.astro';
+import PromoBar from '../components/PromoBar.astro';
+import SiteNav from '../components/SiteNav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { fleet } from '../data/fleet';
+import { trackHref } from '../lib/tracking';
+
+const quote = trackHref('/penawaran', Astro.locals, { langkah: '1' });
+const carHref = (slug: string) => trackHref('/penawaran', Astro.locals, { langkah: '1', mobil: slug });
+
+const problems = [
+  {
+    problem: 'Kendala bahasa ?',
+    solution: 'Bisa request driver berbahasa Indonesia, ngobrol santai pengetahuan luas.',
+  },
+  {
+    problem: 'Bingung & ribet di Negeri orang ?',
+    solution: 'Sopir sudah standby dengan papan nama kamu, tinggal ikut jalan.',
+  },
+  {
+    problem: 'Khawatir ongkos perjalanan mahal ?',
+    solution: 'Harga per mobil jelas di awal, dikirim admin via WhatsApp.',
+  },
+  {
+    problem: 'Bingung transportasi dari bandara?',
+    solution:
+      'Dari bandara ke hotel/destinasi, maupun sebaliknya. Jadwal penjemputan dan kebutuhan layanan juga bisa direquest sesuai kebutuhanmu.',
+  },
+];
+---
+
+<Base
+  title="Airport Transfer Paris — Sopir Menunggu di CDG, Orly & Beauvais | TravelKIF"
+  description="Jemput dan antar bandara CDG, Orly, dan Beauvais. Sopir standby dengan papan nama, harga per mobil. Minta penawaran gratis, tanpa bayar di halaman ini."
+  path="/"
+  jsonLd
+  preloadHero
+>
+  <PromoBar variant="pill" />
+  <SiteNav />
+  <main>
+    <section class="hero">
+      <h1>Pesawat delay? Santai, sopir kami tetap nunggu kamu mendarat di Paris</h1>
+      <p>Jemput &amp; antar bandara CDG, Orly, dan Beauvais. Sopir standby dengan papan nama, harga per mobil, bukan per orang. Hemat !</p>
+      <div class="hero-media">
+        <img
+          src="/hero.webp"
+          alt="Sopir TravelKIF memegang papan nama di Terminal 2E bandara CDG"
+          width="780"
+          height="585"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+      <a class="btn btn-gold" href={quote}><span aria-hidden="true">🎁</span> Minta Penawaran Sekarang</a>
+    </section>
+
+    <section class="problems" aria-labelledby="masalah">
+      <div>
+        <h2 id="masalah">Liburan ke Paris jangan sampai bikin pusing</h2>
+        <p class="lede">Kami paham kekhawatiran traveler Indonesia.</p>
+      </div>
+      {problems.map((item) => (
+        <article class="card">
+          <div class="row">
+            <span class="mark mark-bad" aria-hidden="true">!</span>
+            <strong>{item.problem}</strong>
+          </div>
+          <div class="row">
+            <span class="mark mark-good" aria-hidden="true">✓</span>
+            <p>{item.solution}</p>
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <section class="fleet" aria-labelledby="mobil">
+      <h2 id="mobil">Pilihan mobil &amp; harga</h2>
+      <p class="lede">Semua mobil: Mulai dari €150. Kapasitas koper tertulis adalah checkin luggage/ukuran besar.</p>
+      <div class="fleet-grid">
+        {fleet.map((car) => (
+          <article class="car">
+            <div class="car-photo">
+              <img src={car.image} alt={car.alt} width={car.width} height={car.height} loading="lazy" decoding="async" />
+            </div>
+            <h3>{car.name}</h3>
+            <p class="price">{car.price}</p>
+            <p class="car-model">{car.model}</p>
+            <div class="chips">
+              <span>👤 {car.people}</span>
+              <span>🧳 {car.bags}</span>
+            </div>
+            <p class="tag">{car.tag}</p>
+            <a class="btn btn-ghost pick" href={carHref(car.slug)}>Pilih mobil ini</a>
+          </article>
+        ))}
+      </div>
+      <h3 class="bonus-title">Pesan Airport Transfer TravelKIF dan Dapatkan Keuntungan Istimewa Selama di Paris!</h3>
+      <article class="bonus bonus-dark">
+        <div class="bonus-head">
+          <div class="photo-frame photo-printemps">
+            <img src="/mobil/printemps.webp" alt="Gedung Printemps Haussmann di Paris" width="320" height="480" loading="lazy" decoding="async" />
+          </div>
+          <div>
+            <p class="kicker">Privileged Shopping Experience</p>
+            <h3>VIP Pass</h3>
+            <p>Nikmati berbagai keuntungan dan layanan eksklusif untuk pengalaman belanja yang lebih istimewa di Printemps.</p>
+          </div>
+        </div>
+        <ul class="benefits">
+          <li><i aria-hidden="true">🛋️</i> Akses private lounge</li>
+          <li><i aria-hidden="true">👜</i> Personal shopping dengan janji temu</li>
+          <li><i aria-hidden="true">💸</i> Hemat 5% untuk pembelian tertentu</li>
+          <li><i aria-hidden="true">🧾</i> Tax refund prioritas</li>
+        </ul>
+      </article>
+      <article class="bonus bonus-gold">
+        <div class="bonus-head">
+          <div class="photo-frame photo-makan">
+            <img src="/makanmakan.webp" alt="Logo restoran Makan Makan Paris" width="200" height="200" loading="lazy" decoding="async" />
+          </div>
+          <div>
+            <p class="kicker">@Makanmakan.paris</p>
+            <h3>VOUCHER MAKAN</h3>
+            <p>Setiap pemesanan layanan TravelKIF dapat voucher diskon 10% di restoran Indonesia @makanmakan.paris.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="testi" aria-labelledby="testi">
+      <h2 id="testi">Sudah dipercaya traveler Indonesia</h2>
+      <article class="quote">
+        <div class="who">
+          <span class="avatar" aria-hidden="true">R</span>
+          <div>
+            <strong>Rina, Jakarta</strong>
+            <span class="stars" aria-label="5 dari 5 bintang">★★★★★</span>
+          </div>
+        </div>
+        <p>"Pakai TravelKIF, pesawat kami delay 2 jam tapi sopirnya tetap nunggu sambil pegang papan nama. Anak-anak langsung tenang!"</p>
+      </article>
+      <article class="quote">
+        <div class="who">
+          <span class="avatar" aria-hidden="true">H</span>
+          <div>
+            <strong>Pak Hendra, Surabaya</strong>
+            <span class="stars" aria-label="5 dari 5 bintang">★★★★★</span>
+          </div>
+        </div>
+        <p>"Driver TravelKIF bisa Bahasa Indonesia, jadi enak tanya-tanya. Koper 6 + stroller muat semua di Van."</p>
+      </article>
+      <p class="caption">Video Perjalanan Asmara Abigail<br />Bersama TravelKIF</p>
+    </section>
+
+    <section class="final" aria-labelledby="cta">
+      <h2 id="cta">Slot akhir tahun terbatas, amankan sekarang!</h2>
+      <a class="btn btn-navy" href={quote}><span aria-hidden="true">🎁</span> Minta Penawaran Sekarang</a>
+    </section>
+
+    <section class="cross" aria-labelledby="lain">
+      <h2 id="lain">Butuh layanan lainnya di Eropa?<br />Klik di sini!</h2>
+      <a href="https://trip.travelkif.com" rel="noopener noreferrer">Private Trip <span aria-hidden="true">→</span></a>
+      <a href="https://sewa.travelkif.com" rel="noopener noreferrer">Private Transport <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+  <SiteFooter />
+</Base>

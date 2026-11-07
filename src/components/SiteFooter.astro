@@ -1,0 +1,25 @@
+---
+import { trackHref } from '../lib/tracking';
+
+const href = (path: string) => trackHref(path, Astro.locals);
+---
+
+<footer class="footer">
+  <img class="logo" src="/logo.webp" alt="TravelKIF" width="135" height="31" loading="lazy" />
+  <div class="contacts">
+    <a href="https://www.instagram.com/travelkif" rel="noopener noreferrer">
+      <img src="/icon-instagram.webp" alt="" width="18" height="18" loading="lazy" />
+      <span>@travelkif</span>
+    </a>
+    <a href="mailto:voyage@travelkif.com">
+      <img src="/icon-email.webp" alt="" width="18" height="14" loading="lazy" />
+      <span>voyage@travelkif.com</span>
+    </a>
+  </div>
+  <nav class="legal" aria-label="Kebijakan">
+    <a href={href('/kebijakan-pembatalan')}>Kebijakan Pembatalan</a>
+    <a href={href('/kebijakan-privasi')}>Kebijakan Privasi</a>
+    <a href={href('/syarat-ketentuan')}>Syarat &amp; Ketentuan</a>
+  </nav>
+  <p class="copy">© 2026 TravelKIF</p>
+</footer>

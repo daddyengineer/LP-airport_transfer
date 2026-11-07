@@ -1,0 +1,41 @@
+# TravelKIF Airport Transfer
+
+> Antar-jemput bandara di Paris untuk traveler Indonesia. Harga per mobil, sopir menunggu dengan papan nama. Tidak ada pembayaran di situs ini.
+
+Situs: https://airtransfer.travelkif.com
+
+## Layanan
+
+Airport Transfer di Paris, dari dan ke bandara:
+
+- Charles de Gaulle (CDG)
+- Orly
+- Beauvais
+
+Sopir standby di bandara dengan papan nama. Pesawat yang terlambat tetap ditunggu. Penumpang bisa meminta driver berbahasa Indonesia. Harga dihitung per mobil, bukan per orang, lalu dikonfirmasi admin. Pembayaran tidak dilakukan di halaman ini.
+
+## Armada
+
+- Compact SUV — mulai dari €150 — sekitar 3 orang dan 3 koper
+- Economy Van — mulai dari €175 — sekitar 8 orang dan 6 koper
+- Premium Van — mulai dari €200 — sekitar 7 orang dan 5 koper
+- VIP Van — mulai dari €250 — sekitar 8 orang dan 10 koper
+- Luxury Sedan — mulai dari €250 — sekitar 3 orang dan 3 koper
+- Big Van — mulai dari €450 — sekitar 16 orang dan 6 koper
+
+Kapasitas koper adalah check-in luggage ukuran besar. Harga final tergantung rute.
+
+## Cara minta penawaran
+
+1. Buka https://airtransfer.travelkif.com/penawaran
+2. Pilih kendaraan, bandara (CDG, Orly, atau Beauvais), nomor penerbangan, tanggal dan jam landing, alamat tujuan atau hotel, jumlah penumpang, jumlah koper, dan opsi driver berbahasa Indonesia.
+3. Isi nama lengkap dan nomor WhatsApp (+62). Catatan seperti child seat bersifat opsional. Email tidak dikumpulkan.
+4. Kirim ringkasan. Admin mengonfirmasi harga dan ketersediaan.
+
+Kode promo AKHIRTAHUN26 dipakai hanya jika ada di tautan (parameter promo atau UTM).
+
+## Kontak
+
+- Email: voyage@travelkif.com
+- Instagram: https://www.instagram.com/travelkif
+- Permintaan penawaran: https://airtransfer.travelkif.com/penawaran

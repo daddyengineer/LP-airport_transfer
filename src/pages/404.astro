@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteNav from '../components/SiteNav.astro';
+import { trackHref } from '../lib/tracking';
+---
+
+<Base
+  title="Halaman tidak ditemukan | TravelKIF"
+  description="Halaman yang kamu buka tidak ada. Kembali ke Airport Transfer Paris TravelKIF."
+  path="/404"
+>
+  <SiteNav />
+  <main class="thanks">
+    <h1>Halaman tidak ditemukan</h1>
+    <a class="back-home" href={trackHref('/', Astro.locals)}>← Kembali ke beranda</a>
+  </main>
+</Base>

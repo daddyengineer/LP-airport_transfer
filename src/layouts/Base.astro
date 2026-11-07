@@ -1,0 +1,99 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import { adsConfig, siteUrl } from '../lib/tracking';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  jsonLd?: boolean;
+  preloadHero?: boolean;
+}
+
+const { title, description, path, jsonLd = false, preloadHero = false } = Astro.props;
+const site = siteUrl();
+const canonical = new URL(path, `${site}/`).href;
+const ads = adsConfig();
+const adsReady = Boolean(ads.id && ads.conversion);
+const json = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Airport Transfer Paris',
+  serviceType: 'Airport transfer',
+  description:
+    'Antar-jemput bandara Paris (CDG, Orly, Beauvais) untuk traveler Indonesia. Sopir menunggu dengan papan nama. Harga per mobil, dikonfirmasi admin. Tidak ada pembayaran di situs.',
+  url: `${site}/`,
+  provider: {
+    '@type': 'Organization',
+    name: 'TravelKIF',
+    url: site,
+    email: 'voyage@travelkif.com',
+    sameAs: ['https://www.instagram.com/travelkif'],
+  },
+  areaServed: [
+    { '@type': 'Airport', name: 'Paris Charles de Gaulle Airport', iataCode: 'CDG' },
+    { '@type': 'Airport', name: 'Paris Orly Airport', iataCode: 'ORY' },
+    { '@type': 'Airport', name: 'Paris Beauvais Airport', iataCode: 'BVA' },
+  ],
+  availableChannel: {
+    '@type': 'ServiceChannel',
+    serviceUrl: `${site}/penawaran`,
+  },
+  termsOfService: `${site}/syarat-ketentuan`,
+};
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#1e2a3a" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="preload" href="/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/poppins-800.woff2" as="font" type="font/woff2" crossorigin />
+    {preloadHero && <link rel="preload" href="/hero.webp" as="image" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:site_name" content="TravelKIF" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site}/hero.webp`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script defer src="https://analytics.kolaborasi.xyz/script.js" data-website-id="ae642f38-9d91-4ce0-9a5b-9aadb4f65b01"></script>
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(json).replace(/</g, '\\u003c')} />}
+    <ClientRouter />
+  </head>
+  <body
+    data-utm={Astro.locals.utm || ''}
+    data-promo={Astro.locals.promo || ''}
+    data-ads-id={adsReady ? ads.id : undefined}
+    data-ads-conv={adsReady ? ads.conversion : undefined}
+  >
+    <div class="shell">
+      <slot />
+    </div>
+    <script>
+      import { bootCountdown } from '../scripts/countdown';
+      bootCountdown();
+      document.addEventListener('astro:page-load', bootCountdown);
+    </script>
+    {ads.id && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${ads.id}`}></script>
+        <script is:inline define:vars={{ adsId: ads.id }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', adsId);
+        </script>
+      </>
+    )}
+  </body>
+</html>

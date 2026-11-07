@@ -1,0 +1,27 @@
+---
+import { trackHref } from '../lib/tracking';
+
+interface Props {
+  back?: string;
+  title?: string;
+}
+
+const { back, title } = Astro.props;
+const home = trackHref('/', Astro.locals);
+---
+
+{title ? (
+  <header class="form-head">
+    <a class="icon-btn" href={back || home} aria-label="Kembali">←</a>
+    <h1>{title}</h1>
+    <a class="form-logo" href={home}><img src="/logo.webp" alt="TravelKIF" width="92" height="21" /></a>
+  </header>
+) : (
+  <header class="nav">
+    <a class="brand" href={home}>
+      <img src="/logo.webp" alt="TravelKIF" width="117" height="26" />
+      <i aria-hidden="true"></i>
+      <span>Airport Transfer</span>
+    </a>
+  </header>
+)}

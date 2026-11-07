@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteNav from '../components/SiteNav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { trackHref } from '../lib/tracking';
+
+const home = trackHref('/', Astro.locals);
+---
+
+<Base
+  title="Permintaan Penawaran Terkirim | TravelKIF"
+  description="Permintaan antar-jemput bandara Paris sudah masuk. Admin TravelKIF akan mengonfirmasi harga dan ketersediaan."
+  path="/terima-kasih"
+>
+  <SiteNav />
+  <main class="thanks">
+    <div class="thanks-art" data-lottie aria-hidden="true">
+      <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="46" fill="#eaad40"/><path d="M38 62 l14 14 30-32" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1>Yeay, permintaan kamu sudah masuk! 🎉</h1>
+    <p>Kami akan konfirmasi harga &amp; ketersediaan via WhatsApp.</p>
+    <a class="back-home" href={home}>← Kembali ke beranda</a>
+  </main>
+  <SiteFooter />
+  <script>
+    import '../scripts/thanks.ts';
+  </script>
+</Base>
