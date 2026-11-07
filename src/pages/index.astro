@@ -133,7 +133,7 @@ const problems = [
       <h2 id="testi">Sudah dipercaya traveler Indonesia</h2>
       <article class="quote">
         <div class="who">
-          <span class="avatar" aria-hidden="true">R</span>
+          <span class="avatar" aria-hidden="true">Foto</span>
           <div>
             <strong>Rina, Jakarta</strong>
             <span class="stars" aria-label="5 dari 5 bintang">★★★★★</span>
@@ -143,7 +143,7 @@ const problems = [
       </article>
       <article class="quote">
         <div class="who">
-          <span class="avatar" aria-hidden="true">H</span>
+          <span class="avatar" aria-hidden="true">Foto</span>
           <div>
             <strong>Pak Hendra, Surabaya</strong>
             <span class="stars" aria-label="5 dari 5 bintang">★★★★★</span>
@@ -151,8 +151,22 @@ const problems = [
         </div>
         <p>"Driver TravelKIF bisa Bahasa Indonesia, jadi enak tanya-tanya. Koper 6 + stroller muat semua di Van."</p>
       </article>
+      <figure class="testi-video">
+        <video
+          data-testi-video
+          data-src="/testimoni/abigail.mp4"
+          playsinline
+          muted
+          preload="none"
+          tabindex="0"
+          aria-label="Putar video perjalanan Asmara Abigail bersama TravelKIF"
+        ></video>
+      </figure>
       <p class="caption">Video Perjalanan Asmara Abigail<br />Bersama TravelKIF</p>
     </section>
+    <script>
+      import '../scripts/testimoni.ts';
+    </script>
 
     <section class="final" aria-labelledby="cta">
       <h2 id="cta">Slot akhir tahun terbatas, amankan sekarang!</h2>
