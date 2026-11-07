@@ -60,7 +60,7 @@ export function trackHref(
   locals: { utm?: string; promo?: string },
   extra?: Record<string, string>,
 ): string {
-  const url = new URL(path, 'https://airtransfer.travelkif.com');
+  const url = new URL(path, 'https://airtransfer.travelkif.id');
   const utm = parseUtm(locals.utm || '');
   for (const key of UTM_KEYS) {
     if (utm[key] && !url.searchParams.has(key)) url.searchParams.set(key, utm[key]);
@@ -76,7 +76,7 @@ export function trackHref(
 }
 
 export function siteUrl(): string {
-  return (process.env.PUBLIC_SITE_URL || 'https://airtransfer.travelkif.com').replace(/\/$/, '');
+  return (process.env.PUBLIC_SITE_URL || 'https://airtransfer.travelkif.id').replace(/\/$/, '');
 }
 
 export function adsConfig(): { id: string; conversion: string } {

@@ -2,7 +2,7 @@
 
 > Antar-jemput bandara di Paris untuk traveler Indonesia. Harga per mobil, sopir menunggu dengan papan nama. Tidak ada pembayaran di situs ini.
 
-Situs: https://airtransfer.travelkif.com
+Situs: https://airtransfer.travelkif.id
 
 ## Layanan
 
@@ -27,7 +27,7 @@ Kapasitas koper adalah check-in luggage ukuran besar. Harga final tergantung rut
 
 ## Cara minta penawaran
 
-1. Buka https://airtransfer.travelkif.com/penawaran
+1. Buka https://airtransfer.travelkif.id/penawaran
 2. Pilih kendaraan, bandara (CDG, Orly, atau Beauvais), nomor penerbangan, tanggal dan jam landing, alamat tujuan atau hotel, jumlah penumpang, jumlah koper, dan opsi driver berbahasa Indonesia.
 3. Isi nama lengkap dan nomor WhatsApp (+62). Catatan seperti child seat bersifat opsional. Email tidak dikumpulkan.
 4. Kirim ringkasan. Admin mengonfirmasi harga dan ketersediaan.
@@ -38,4 +38,4 @@ Kode promo AKHIRTAHUN26 dipakai hanya jika ada di tautan (parameter promo atau U
 
 - Email: voyage@travelkif.com
 - Instagram: https://www.instagram.com/travelkif
-- Permintaan penawaran: https://airtransfer.travelkif.com/penawaran
+- Permintaan penawaran: https://airtransfer.travelkif.id/penawaran
