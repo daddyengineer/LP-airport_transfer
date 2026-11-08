@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { parseLead } from '../../lib/lead';
 import { appendLead, readServiceAccount } from '../../lib/sheets';
-import { sendLead } from '../../lib/telegram';
+import { sendLead, telegramConfigured } from '../../lib/telegram';
 
 export const prerender = false;
 
@@ -36,25 +36,31 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const parsed = parseLead(payload, cookieUtm, cookiePromo);
   if (!parsed.ok) return json({ ok: false, error: parsed.error }, 400);
 
-  if (!readServiceAccount()) {
+  const sheetReady = Boolean(readServiceAccount());
+  const telegramReady = telegramConfigured();
+  if (!sheetReady && !telegramReady) {
     return json({ ok: false, error: 'Pengiriman belum aktif.' }, 503);
   }
 
-  try {
-    await appendLead(parsed.lead);
-  } catch (error) {
-    console.error('Sheet gagal', error instanceof Error ? error.message : 'unknown');
-    return json({ ok: false, error: 'Pengiriman gagal. Silakan coba lagi.' }, 502);
+  if (sheetReady) {
+    try {
+      await appendLead(parsed.lead);
+    } catch (error) {
+      console.error('Sheet gagal', error instanceof Error ? error.message : 'unknown');
+      return json({ ok: false, error: 'Pengiriman gagal. Silakan coba lagi.' }, 502);
+    }
   }
 
-  try {
-    await sendLead(parsed.lead);
-  } catch (error) {
-    const reason = error instanceof Error ? error.message : 'unknown';
-    if (reason === 'telegram-missing') {
-      console.error('Telegram gagal: token atau chat id belum diisi');
-    } else {
-      console.error('Telegram gagal setelah sheet berhasil');
+  if (telegramReady) {
+    try {
+      await sendLead(parsed.lead);
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : 'unknown';
+      if (!sheetReady) {
+        console.error('Telegram gagal', reason === 'telegram-missing' ? 'token atau chat id belum diisi' : reason);
+        return json({ ok: false, error: 'Pengiriman gagal. Silakan coba lagi.' }, 502);
+      }
+      console.error(reason === 'telegram-missing' ? 'Telegram gagal: token atau chat id belum diisi' : 'Telegram gagal setelah sheet berhasil');
     }
   }
 
